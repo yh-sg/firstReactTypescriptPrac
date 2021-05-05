@@ -1,9 +1,15 @@
 import React from 'react';
+//styling
+import {GlobalStyle, Wrapper} from './App.styles'
 
-function App() {
+const App: React.FC =() => {
   return (
     <div className="App">
-      Quiz
+      <GlobalStyle />
+      <Wrapper>
+      <h1>Quiz</h1>
+      <p>testing</p>
+      </Wrapper>
     </div>
   );
 }
