@@ -1,6 +1,8 @@
 import React from 'react'
 //types
 import {AnswerObject} from '../App'
+//styles
+import {Wrapper, ButtonWrapper} from './QuestionCard.styles'
 
 type Props = {
     question: string;
@@ -21,7 +23,7 @@ const QuestionCard: React.FC<Props> = ({
     totalQuestion,
 }) => { 
     return (
-        <div>
+        <Wrapper>
             <p className="number">
                 Question: {questionNum} / {totalQuestion}
             </p>
@@ -29,14 +31,19 @@ const QuestionCard: React.FC<Props> = ({
             <p dangerouslySetInnerHTML={{__html: question}}></p>
             <div>
                 {answers.map(answer => (
-                    <div key={answer}>
+                    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining
+                    <ButtonWrapper 
+                        key={answer} 
+                        correct={userAnswer?.correctAnswer===answer}
+                        userClicked={userAnswer?.answer===answer}
+                    >
                         <button disabled={!!userAnswer} value={answer} onClick={callback}>
                             <span dangerouslySetInnerHTML={{__html: answer}}></span>
                         </button>
-                    </div>
+                    </ButtonWrapper>
                 ))}
             </div>
-        </div>
+        </Wrapper>
     )
 }
 

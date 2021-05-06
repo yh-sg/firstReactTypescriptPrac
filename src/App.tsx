@@ -16,8 +16,6 @@ export type AnswerObject = {
 
 const App: React.FC = () => {
 
-
-
   const TOTAL_NUMBER = 10;
 
   //states
@@ -74,7 +72,7 @@ const App: React.FC = () => {
   }
 
   return (
-    <div className="App">
+    <>
       <GlobalStyle />
       <Wrapper>
 
@@ -108,7 +106,7 @@ const App: React.FC = () => {
 
         </Wrapper>
 
-    </div>
+    </>
   );
 }
 
