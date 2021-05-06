@@ -4,9 +4,8 @@ import { fetchQuizQuestions } from './API'
 import QuestionCard from './components/QuestionCard'
 //types(Enum)
 import {QuestionState, Difficulty} from './API'
-import { StringLiteralLike } from 'typescript';
 
-type AnswerObject = {
+export type AnswerObject = {
   question: string;
   answer: string;
   correct: boolean;
@@ -46,22 +45,39 @@ const App = () => {
   }
 
   const checkAnswer = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if(!gameOver){
+      //user answer
+      const answer = e.currentTarget.value,
+      //check answer against correct answer
+            correct = questions[number].correct_answer === answer;
+      if(correct) setScore(prev => prev + 1)
 
+      const answerObject = {
+        question: questions[number].question,
+        answer,
+        correct,
+        correctAnswer: questions[number].correct_answer,
+      };
+      setUserAnswers(prev => [...prev, answerObject])
+    }
   }
 
   const nextQuestion = () => {
+    const nextQuestion = number + 1;
+
+    nextQuestion===TOTAL_NUMBER ? setGameOver(true) : setNumber(nextQuestion);
 
   }
 
   return (
     <div className="App">
       <h1>React Quiz</h1>
-      {!gameOver || userAnswers.length!==TOTAL_NUMBER && (
+      {(!gameOver || userAnswers.length!==TOTAL_NUMBER) && (
       <button className="start" onClick={startTrivia}>
         Start
       </button>
       )}
-      {!gameOver && <p className="score">Score: </p>}
+      {!gameOver && <p className="score">Score: {score}</p>}
       {loading && <p>Loading Questions ...</p>}
 
       {!loading && !gameOver && (
@@ -74,10 +90,15 @@ const App = () => {
           callback={checkAnswer}
         />
       )}
-      
-      <button className="next" onClick={nextQuestion}>
-        Next Question
-      </button>
+
+      {/* not gameover/loading/reach max num/when user haven't give ans/not max num */}
+      {!gameOver && !loading && userAnswers.length === number + 1 && number !== TOTAL_NUMBER - 1
+      &&(
+        <button className="next" onClick={nextQuestion}>
+          Next Question
+        </button>
+      )}
+
     </div>
   );
 }
